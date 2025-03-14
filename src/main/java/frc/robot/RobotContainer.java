@@ -5,23 +5,21 @@
 package frc.robot;
 
 import frc.robot.Constants.DriverConstants;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoCommands.CoralShootAuto;
-import frc.robot.commands.AutoCommands.L2CoralAuto;
+import frc.robot.commands.AutoCommands.L1CoralAuto;
 import frc.robot.commands.AutoCommands.L3CoralAuto;
+import frc.robot.commands.AutoCommands.L2CoralAuto;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -44,6 +42,7 @@ public class RobotContainer {
   public static ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   public static CoralSubsystem m_coralSubsystem = new CoralSubsystem();
 
+  public static L1CoralAuto m_L1CoralAuto = new L1CoralAuto();
   public static L2CoralAuto m_L2CoralAuto = new L2CoralAuto();
   public static L3CoralAuto m_L3CoralAuto = new L3CoralAuto();
   public static CoralShootAuto m_CoralShootAuto = new CoralShootAuto(Constants.AutoConstants.CoralShootTimeLimitSeconds);
@@ -56,16 +55,15 @@ public class RobotContainer {
 
   public RobotContainer() { 
 
-    NamedCommands.registerCommand("L2 Coral Auto", m_L2CoralAuto);
     NamedCommands.registerCommand("Coral Shoot Auto", m_CoralShootAuto);
+    NamedCommands.registerCommand("L1 Coral Auto", m_L1CoralAuto);
+    NamedCommands.registerCommand("L2 Coral Auto", m_L2CoralAuto);
     NamedCommands.registerCommand("L3 Coral Auto", m_L3CoralAuto);
     
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     configureBindings();
-
-    //DriverStation.silenceJoystickConnectionWarning(true);
   }
 
 
@@ -105,11 +103,6 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, Constants.DriverConstants.JoystickButtons.m_xButton).onTrue(driveDirectAngle); 
     new JoystickButton(m_driverController, Constants.DriverConstants.JoystickButtons.m_aButton).onTrue(driveRobotOrientedDirectAngle);
-
-    if(m_driverController.getRawButtonPressed(Constants.DriverConstants.JoystickButtons.m_bButton)) {
-      m_swerveDriveSubsystem.zeroGyro();
-    }
-
   }
 
 

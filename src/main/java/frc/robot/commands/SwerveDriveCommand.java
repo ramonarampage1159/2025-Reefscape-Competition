@@ -1,25 +1,16 @@
 package frc.robot.commands;
 
-import frc.robot.Constants;
-import frc.robot.Constants.DriverConstants;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
-import frc.robot.RobotContainer;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
 public class SwerveDriveCommand extends Command{
-    public static boolean m_FieldCentricMode = true;
-    private final SwerveDriveSubsystem m_subsystem;
+  private final SwerveDriveSubsystem m_subsystem;
 
 
 
-public SwerveDriveCommand(SwerveDriveSubsystem driveSubsystem) {
+  public SwerveDriveCommand(SwerveDriveSubsystem driveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = driveSubsystem;
     addRequirements(m_subsystem);
@@ -44,7 +35,7 @@ public SwerveDriveCommand(SwerveDriveSubsystem driveSubsystem) {
    @Override
    public boolean isFinished() {
      return false;
-   }
+  }
 
 
     

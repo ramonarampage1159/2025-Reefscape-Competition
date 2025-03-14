@@ -21,7 +21,8 @@ public class L2CoralAuto extends Command{
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double L2PValue = Constants.ElevatorConstants.m_elevatorP;
+    //L2 Setpoint
+      double L2PValue = Constants.ElevatorConstants.m_elevatorP;
       double L2IValue = Constants.ElevatorConstants.m_elevatorI;
       double L2DValue = Constants.ElevatorConstants.m_elevatorD;
       RobotContainer.m_elevatorSubsystem.setPIDValues(L2PValue, L2IValue, L2DValue, 

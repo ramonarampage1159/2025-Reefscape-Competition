@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
-//import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkLowLevel;
 
 import frc.robot.Constants;
@@ -43,8 +42,10 @@ public class CoralSubsystem extends SubsystemBase {
           /* one-time action goes here */
         });
   }
+
+  
   public void IntakeCoral() {
-    m_motorCoralLeft.set(.8);
+    m_motorCoralLeft.set(Constants.CoralConstants.m_intakeSpeed);
   }
 
 
@@ -54,7 +55,7 @@ public class CoralSubsystem extends SubsystemBase {
 
 
   public void shootCoral(){
-    m_motorCoralLeft.set(-1.);
+    m_motorCoralLeft.set(Constants.CoralConstants.m_shootSpeed);
   }
 
 

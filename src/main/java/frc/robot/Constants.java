@@ -54,7 +54,6 @@ public final class Constants {
       public static final int m_startButton = 10;
       public static final int m_leftStickButton = 11;
       public static final int m_rightStickButton = 12; 
-
     }
 
   }
@@ -66,7 +65,7 @@ public final class Constants {
 
     public static final int MAX_CURRENT = 40;
 
-    public static final double m_elevatorP = 0.1;
+    public static final double m_elevatorP = 0.155;
     public static final double m_elevatorI = 0.00;
     public static final double m_elevatorD = 0.00; 
 
@@ -86,49 +85,41 @@ public final class Constants {
     }
   
     public static class L1_PIDS{
-      public static final double m_L1Rotations = 18.5; //30 for L1      8.5 for intake 
+      public static final double m_L1Rotations = 18.5;  
       public static final double m_L1MaxOutput = 0.5; 
       public static final double m_L1MinOutput = -0.5;
     }
 
     public static class L2_PIDS{
-      public static final double m_L2Rotations = 46; 
+      public static final double m_L2Rotations = 29; 
       public static final double m_L2MaxOutput = 0.5; 
       public static final double m_L2MinOutput = -0.5;
     }
 
     public static class L3_PIDS{
-      public static final double m_L3Rotations = 66.5; 
+      public static final double m_L3Rotations = 55; 
       public static final double m_L3MaxOutput = 0.5; 
       public static final double m_L3MinOutput = -0.5;
     }
 
-    public static class Processor_PIDS{
-      public static final double m_processorRotations = 0; 
-      public static final double m_processorMaxOutput = 0.5; 
-      public static final double m_processorMinOutput = -0.5;
+    public static class Algae_PIDS{
+      public static final double m_algaeRotations = 12; 
+      public static final double m_algaeMaxOutput = 0.5; 
+      public static final double m_algaeMinOutput = -0.5;
     }
 
     public static class Station_PIDS{
-      public static final double m_stationRotations = 8.5; 
+      public static final double m_stationRotations = 0; 
       public static final double m_stationMaxOutput = 0.5; 
       public static final double m_stationMinOutput = -0.5;
     }    
-
-    //algae position definition by mr ferguson 2025.03.08
-    public static class A1_PIDS{
-      public static final double m_A1Rotations = 25.; 
-      public static final double m_A1MaxOutput = 0.25; 
-      public static final double m_A1MinOutput = -0.25;
-    }
-    //min & max output lowered for testing purposes
-    //end testing by mr ferguson
-
   }
 
   public static final class CoralConstants{
     public static final int m_motorCoralRight = 17;
     public static final int m_motorCoralLeft = 18;
+    public static final double m_intakeSpeed = 0.3;
+    public static final double m_shootSpeed = -1.0;
   }
 
   public static class AutoConstants {

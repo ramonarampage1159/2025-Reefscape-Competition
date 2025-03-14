@@ -18,6 +18,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkFlex;
 import com.studica.frc.AHRS;
 
@@ -31,6 +32,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import swervelib.SwerveDrive;
 import swervelib.SwerveModule;
 import swervelib.parser.SwerveParser;
@@ -43,13 +45,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   SwerveDrive swerveDrive;
 
   AHRS m_gyro;
-
-  /*
-  //TEST FOR SMARTDASHBOARD
-  private DutyCycleEncoder m_absoluteEncoder = new DutyCycleEncoder(0);
-  private Encoder m_relativeEncoder = new Encoder(1, 2);
-   */
-
 
 
   public SwerveDriveSubsystem() {
@@ -78,17 +73,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     new Thread(()->{
       try{
         Thread.sleep(1000);
-        //angleMotorBrake();
+        angleMotorBrake();
       } catch (Exception e){
       }
       }).start();
       System.out.println("angle motors set brake mode");
    
-  }
-
-
-  public void zeroGyro(){
-    swerveDrive.zeroGyro();
   }
 
 
@@ -124,15 +114,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       // Make the robot move
       if (DriverStation.getAlliance().isPresent() && (DriverStation.getAlliance().get()) == DriverStation.Alliance.Red)
       {
-        swerveDrive.drive(new Translation2d(Math.pow(translationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisVelocity(),
-                                          Math.pow(translationY.getAsDouble(), 3) * swerveDrive.getMaximumChassisVelocity()),
+        swerveDrive.drive(new Translation2d(Math.pow(translationX.getAsDouble() *-1, 3) * swerveDrive.getMaximumChassisVelocity(),
+                                          Math.pow(translationY.getAsDouble() *-1, 3) * swerveDrive.getMaximumChassisVelocity()),
                         Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
                         true,
                         false);
       }else
       {
-        swerveDrive.drive(new Translation2d(Math.pow(translationX.getAsDouble() *-1, 3) * swerveDrive.getMaximumChassisVelocity(),
-                                          Math.pow(translationY.getAsDouble() *-1, 3) * swerveDrive.getMaximumChassisVelocity()),
+        swerveDrive.drive(new Translation2d(Math.pow(translationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisVelocity(),
+                                          Math.pow(translationY.getAsDouble(), 3) * swerveDrive.getMaximumChassisVelocity()),
                         Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
                         true,
                         false);
@@ -140,21 +130,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     });
   }
 
-
- /* 
- public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX)
-  {
-    return run(() -> {
-      // Make the robot move
-      swerveDrive.drive(new Translation2d(Math.pow(translationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisVelocity(),
-                                          Math.pow(translationY.getAsDouble(), 3) * swerveDrive.getMaximumChassisVelocity()),
-                        Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
-                        true,
-                        false);
-
-    });
-  }
-*/
 
   public Command driveRobotCentricCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX)
   {
@@ -170,8 +145,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   }
 
   private void updateSmartDashboard() {
-
-    //SmartDashboard.putNumber("Yaw Pub", swerveDrive.getYaw().getDegrees());
 
     double angle = m_gyro.getYaw();
     SmartDashboard.putNumber("Yaw Pub", angle);
@@ -192,11 +165,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
       SmartDashboard.putNumber("Raw Abs Encoder #" + AbsEncoderID, AbsoluteEncoderDeg);   
       SmartDashboard.putNumber("Internal Angle Encoder #" + AbsEncoderID, InternalAngle);
+      //working?
       SmartDashboard.putNumber("Module " + AbsEncoderID + " Speed", ModuleSpeed);
 
     }
 
-
+    //working?
     for(SwerveModule module : swerveDrive.getModules())
     {
         SparkFlex driveMotor = (SparkFlex)module.configuration.driveMotor.getMotor();
@@ -205,20 +179,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
         double driveMotorVelocity = driveMotor.getEncoder().getVelocity();
           
-      SmartDashboard.putNumber("Drive Motor # " + driveMotorID, driveMotorVelocity);   
+      SmartDashboard.putNumber("Drive Motor # " + driveMotorID + "Velocity", driveMotorVelocity);   
 
     }
 
-    /*
-    //TEST for SmartDashboard
-    int count = m_relativeEncoder.get()/2048;
-    double RelativeDistance = m_relativeEncoder.get()/2048.000*5.00000000*Math.PI;
-    
-    SmartDashboard.putNumber("RelativeDistance", RelativeDistance);   
-    SmartDashboard.putNumber("Count", count);  
-     */
-
-    
   }
    
 
@@ -253,15 +217,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
     return run(() -> {
-      SmartDashboard.putNumber("Rotation Axis", 2);
-      SmartDashboard.putNumber("Left to Right Axis", 1);
-      
       swerveDrive.driveFieldOriented(velocity.get());
     });
-  }
-
-  public void setMotorSpeed(double xAxis, double yAxis, double  zAxis) {
-    
   }
 
 
@@ -303,12 +260,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
-              /* 02/17 part of original working (kind of) code
-              new PIDConstants(5.0, 0.0, 0.0), */
               new PIDConstants(0.02, 0.0, 0.0),
               // Translation PID constants
-              /* 02/17 part of original working (kind of) code
-              new PIDConstants(5.0, 0.0, 0.0) */
               new PIDConstants(0.05, 0.0, 0.0)
               // Rotation PID constants
           ),
