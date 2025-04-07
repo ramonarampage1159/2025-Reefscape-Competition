@@ -18,7 +18,6 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkFlex;
 import com.studica.frc.AHRS;
 
@@ -32,10 +31,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import swervelib.SwerveDrive;
 import swervelib.SwerveModule;
 import swervelib.parser.SwerveParser;
+import swervelib.telemetry.SwerveDriveTelemetry;
+import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 
 
@@ -135,8 +135,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   {
     return run(() -> {
       // Make the robot move
-      swerveDrive.drive(new Translation2d(Math.pow(translationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisVelocity(),
-                                          Math.pow(translationY.getAsDouble(), 3) * swerveDrive.getMaximumChassisVelocity()),
+      swerveDrive.drive(new Translation2d(Math.pow(translationX.getAsDouble() *-1, 3) * swerveDrive.getMaximumChassisVelocity(),
+                                          Math.pow(translationY.getAsDouble() *-1, 3) * swerveDrive.getMaximumChassisVelocity()),
                         Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
                         false,
                         false);
@@ -165,12 +165,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
       SmartDashboard.putNumber("Raw Abs Encoder #" + AbsEncoderID, AbsoluteEncoderDeg);   
       SmartDashboard.putNumber("Internal Angle Encoder #" + AbsEncoderID, InternalAngle);
-      //working?
+      //speed of steering
       SmartDashboard.putNumber("Module " + AbsEncoderID + " Speed", ModuleSpeed);
 
     }
 
-    //working?
+    //working? yes
     for(SwerveModule module : swerveDrive.getModules())
     {
         SparkFlex driveMotor = (SparkFlex)module.configuration.driveMotor.getMotor();
@@ -179,7 +179,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
         double driveMotorVelocity = driveMotor.getEncoder().getVelocity();
           
-      SmartDashboard.putNumber("Drive Motor # " + driveMotorID + "Velocity", driveMotorVelocity);   
+      SmartDashboard.putNumber("Drive Motor # " + driveMotorID + " Velocity", driveMotorVelocity);   
 
     }
 
@@ -304,6 +304,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   {
     // Create a path following command using AutoBuilder. This will also trigger event markers.
     return new PathPlannerAuto(pathName);
+  }
+
+  public void resetOdometry(Pose2d initialHolonomicPose)
+  {
+    swerveDrive.resetOdometry(initialHolonomicPose);
+  }
+
+  public Pose2d getPose()
+  {
+    return swerveDrive.getPose();
   }
 
 }

@@ -109,7 +109,7 @@ public final class Constants {
     }
 
     public static class Station_PIDS{
-      public static final double m_stationRotations = 0; 
+      public static final double m_stationRotations = 3.5; 
       public static final double m_stationMaxOutput = 0.5; 
       public static final double m_stationMinOutput = -0.5;
     }    

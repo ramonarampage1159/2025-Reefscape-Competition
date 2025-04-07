@@ -51,7 +51,7 @@ public class ElevatorCommand extends Command{
       double L3Rotations = Constants.ElevatorConstants.L3_PIDS.m_L3Rotations;
       RobotContainer.m_elevatorSubsystem.setArmReference(L3Rotations, SparkBase.ControlType.kPosition); 
     }
-    //Coral Station and Zero Position Setpoint
+    //Coral Station 
     if(RobotContainer.m_operatorController.getRawButtonPressed(Constants.OperatorConstants.JoystickButtons.m_aButton)) {
       double StationPValue = Constants.ElevatorConstants.m_elevatorP;
       double StationIValue = Constants.ElevatorConstants.m_elevatorI;
@@ -70,6 +70,16 @@ public class ElevatorCommand extends Command{
       Constants.ElevatorConstants.Algae_PIDS.m_algaeMinOutput, Constants.ElevatorConstants.Algae_PIDS.m_algaeMaxOutput);
       double AlgaeRotations = Constants.ElevatorConstants.Algae_PIDS.m_algaeRotations;
       RobotContainer.m_elevatorSubsystem.setArmReference(AlgaeRotations, SparkBase.ControlType.kPosition);
+    }
+    //Zero Position Setpoint (and maybe Coral Station)
+    if(RobotContainer.m_operatorController.getRawButtonPressed(Constants.OperatorConstants.JoystickButtons.m_rightStickButton)) {
+      double ZeroPValue = Constants.ElevatorConstants.m_elevatorP;
+      double ZeroIValue = Constants.ElevatorConstants.m_elevatorI;
+      double ZeroDValue = Constants.ElevatorConstants.m_elevatorD;
+      RobotContainer.m_elevatorSubsystem.setPIDValues(ZeroPValue, ZeroIValue, ZeroDValue, 
+      Constants.ElevatorConstants.ZeroPIDS.m_zeroMinOutput, Constants.ElevatorConstants.ZeroPIDS.m_zeroMaxOutput);
+      double ZeroRotations = Constants.ElevatorConstants.ZeroPIDS.m_zeroRotations;
+      RobotContainer.m_elevatorSubsystem.setArmReference(ZeroRotations, SparkBase.ControlType.kPosition);
     }
   }
 
